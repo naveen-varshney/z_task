@@ -28,7 +28,7 @@ class RedisDb(object):
 			row = self.get_row(key)
 			row['Change'] = float(row['Change'])
 			result.append(row)
-		return result
+		return json.dumps(result)
 
 	def seach_for_name(self,name):
 		#fetch and store the matched entries
@@ -37,7 +37,7 @@ class RedisDb(object):
 		for match in matches:
 			result.append(self.r_con.get_row(match))
 
-		return result
+		return json.dumps(result)
 
 	def clear_db(self):
 		return self.r_con.flushall()
