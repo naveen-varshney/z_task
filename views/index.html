@@ -5,31 +5,46 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assests/app.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script src="/assests/js/app.js"></script>
+  <script src="assests/app.js"></script>
 </head>
 <body>
 
   <div class="container">
-
-    <div class="row" style="margin:100px;">
-      <h2>Top 10 Equity Stock for <strong id="heading"> 14 June</strong></h2>
-      <table class="table table-hover">
+    <div class="row" style="margin-top:100px;">
+      <h3 id='main-heading'>Top 10 Equity Stock for <strong id="for-date"></strong></h3>
+      <input class="form-control" id="search" type="text" placeholder="Search..">
+      <br>
+      <table class="table table-hover" style="margin-top:20px;">
         <thead>
           <tr>
             <th>NAME</th>
             <th>CODE</th>
             <th>OPEN</th>
             <th>HIGH</th>
+            <th>LOW</th>
             <th>CLOSE</th>
             <th>P.CLOSE</th>
           </tr>
         </thead>
-        <tbody id="equity-body">
+        <tbody id="t-body">
         </tbody>
       </table>
+    </div>
+
+    <div class="row" style="margin-top:20px;">
+      <div class="col-xs-8">
+        <div class="form-group">
+          <h4>Check for other date</h4>
+          <span>Make sure date is less than today's date</span>
+          <input class="form-control" id="get-date" type="date">
+          <legend></legend>
+          <button type="button" class="btn btn-primary" id="sumbit-date" onclick="GetDate()">Sumbit</button>
+        </div>
+      </div>
     </div>
   </div>
 </body>

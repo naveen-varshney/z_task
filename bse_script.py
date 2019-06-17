@@ -28,10 +28,11 @@ class GetEquityZip(object):
 						file = io.TextIOWrapper(f, encoding="utf-8")
 						data = csv.DictReader(file)
 						data = [row for row in data]
-			if data:
+				if data:
+					if self.for_date == self.red.r_con.get('last_updated_date'):
+						return {"success" : True, "message": "File already successfully loaded for date {}".format(self.for_date)}
+
 				#save data to redis DB
-				if self.for_date == self.red.r_con.get('last_updated_date'):
-					return {"success" : True, "message": "File already successfully loaded for date {}".format(self.for_date)}
 				if not self._save_data_from_csv(data):
 					return {"success" : False, "message": "Some error occured for date {}".format(self.for_date)}
 
