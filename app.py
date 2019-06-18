@@ -55,7 +55,13 @@ if __name__ == '__main__':
         '/assests': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': 'assests'
-        }
+        },
+
+        # '/favicon.ico':
+        # {
+        #     'tools.staticfile.on': True,
+        #     'tools.staticfile.filename': 'favicon.ico'
+        # }
     }
     # import pdb; pdb.set_trace()
     cherrypy.quickstart(EquityApp(),config=config)
