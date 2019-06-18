@@ -1,6 +1,7 @@
 import redis
 import operator
 import json
+from decouple import config
 
 
 class RedisDb(object):
