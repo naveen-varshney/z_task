@@ -20,7 +20,7 @@ class EquityApp(object):
 
     @cherrypy.expose
     def refresh(self, for_date):
-        # for_date = datetime.strptime(for_date, '%Y-%m-%d').strftime('%d%m%y')
+        for_date = datetime.strptime(for_date, '%Y-%m-%d').strftime('%d%m%y')
         get_zip = GetEquityZip(for_date=for_date)
         rdb = get_zip.red
         # if for_date == rdb.r_con.get('last_updated_date'):
