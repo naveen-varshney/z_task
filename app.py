@@ -45,10 +45,10 @@ if __name__ == '__main__':
     config = {
         'global': {
             'server.socket_host': '0.0.0.0',
-            'server.socket_port': int(os.environ.get('PORT', 5000))
+            'server.socket_port': int(os.environ.get('PORT', 5000)),
+	    'tools.staticdir.root': os.path.dirname(os.path.abspath(__file__))
         },
         '/': {
-            'tools.staticdir.root': os.path.dirname(os.path.abspath(__file__)),
             'log.access_file': '',
             'log.error_file': 'error_file.log'
         },
@@ -57,11 +57,11 @@ if __name__ == '__main__':
             'tools.staticdir.dir': 'assests'
         },
 
-        # '/favicon.ico':
-        # {
-        #     'tools.staticfile.on': True,
-        #     'tools.staticfile.filename': 'favicon.ico'
-        # }
+         '/favicon.ico':
+         {
+             'tools.staticfile.on': True,
+             'tools.staticfile.filename': 'favicon.ico'
+         }
     }
     # import pdb; pdb.set_trace()
     cherrypy.quickstart(EquityApp(),config=config)
