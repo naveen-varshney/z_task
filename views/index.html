@@ -9,31 +9,40 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <style>
+        zing-grid[loading] {
+            height: 800px;
+        }
+    </style>
   <script src="assests/app.js"></script>
 </head>
 <body>
 
   <div class="container">
     <div class="row" style="margin-top:100px;">
-      <h3 id='main-heading'>Top 10 Equity Stock for <strong id="for-date"></strong></h3>
-      <input class="form-control" id="search" type="text" placeholder="Search..">
-      <br>
-      <table class="table table-hover" style="margin-top:20px;">
-        <thead>
-          <tr>
-            <th>NAME</th>
-            <th>CODE</th>
-            <th>OPEN</th>
-            <th>HIGH</th>
-            <th>LOW</th>
-            <th>CLOSE</th>
-            <th>P.CLOSE</th>
-          </tr>
-        </thead>
-        <tbody id="t-body">
-        </tbody>
-      </table>
+      <div class="col-xs-8">
+        <h3 id='main-heading'>Top 10 Equity Stock for <strong id="for-date"></strong></h3>
+        <input class="form-control" id="search" type="text" placeholder="Search..">
+        <br>
+        <table class="table table-hover" style="margin-top:20px;">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>CODE</th>
+              <th>OPEN</th>
+              <th>HIGH</th>
+              <th>LOW</th>
+              <th>CLOSE</th>
+              <th>P.CLOSE</th>
+            </tr>
+          </thead>
+          <tbody id="t-body">
+          </tbody>
+        </table>
+      </div>
     </div>
+    <div id='myChart'></div>
 
     <div class="row" style="margin-top:20px;">
       <div class="col-xs-8">
@@ -42,7 +51,7 @@
           <span>Make sure date is less than today's date</span>
           <input class="form-control" id="get-date" type="date">
           <legend></legend>
-          <button type="button" class="btn btn-primary" id="sumbit-date" onclick="GetDate()">Sumbit</button>
+          <button type="button" class="btn btn-primary" id="submit-date" onclick="GetDate()">Sumbit</button>
         </div>
       </div>
     </div>

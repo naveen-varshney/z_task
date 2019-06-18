@@ -50,7 +50,7 @@ if __name__ == '__main__':
         '/': {
             'tools.staticdir.root': os.path.dirname(os.path.abspath(__file__)),
             'log.access_file': '',
-            'log.error_file': 'error_file'
+            'log.error_file': 'error_file.log'
         },
         '/assests': {
             'tools.staticdir.on': True,

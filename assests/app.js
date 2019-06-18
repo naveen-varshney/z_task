@@ -96,12 +96,67 @@ function LoadEquity(search='') {
                     }
                     $('#for-date').html(for_date);
                     top_10.forEach(AddRowInTable);
+                    PreapreChart(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     var errorMsg = 'Ajax request failed: ' + xhr.responseText;
                     $('#t-body').html(errorMsg);
                   }
             });
+}
+
+function PreapreChart(data) {
+  var myConfig = {
+  "type":"scatter",
+  "title":{
+    "text":"Top Stocks for " + data.for_date
+  },
+  "plot": {
+    "tooltip": {
+      "text": "Name %kt and Code %vt."
+    }
+  },
+  "scale-y":{
+    "offset-start":"35%",
+    "values":"0:10:2",
+    "format":"%v",
+    "label":{
+      "text":"Highs"
+    }
+  },
+  // "scale-y-2":{
+  //   "blended":true,
+  //   "offset-end":"75%",
+  //   "placement":"default",
+  //   "values":"0:3:3",
+  //   "format":"%vM",
+  //   "label":{
+  //     "text":"Volume"
+  //   }
+  // },
+  "series":[
+    {
+      "type":"stock",
+      "scales":"scale-x,scale-y",
+      "values":GetChartValues(data.top_10)
+    }
+  ]
+  };
+
+  zingchart.render({
+  id : 'myChart',
+  data : myConfig,
+  height: 400,
+  width: "100%"
+  });
+}
+
+function GetChartValues(top_10) {
+  var arr = []
+  $.each(top_10, function( index, item ) {
+    arr.push([item.Name,item.Code,item.Open,item.High,item.Low,item.Close,item.PreClose])
+  });
+  return arr
 }
 
 // create table cell for each item
