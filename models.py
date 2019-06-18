@@ -14,7 +14,7 @@ class RedisDb(object):
 
 	#get redis connsection
 	def _connect_redis(self):
-		con = redis.from_url(os.environ.get("REDIS_URL"), charset="utf-8", decode_responses=True)
+		con = redis.from_url(config("REDIS_URL"), charset="utf-8", decode_responses=True)
 		return con
 
 	def insert_row(self,key,values):

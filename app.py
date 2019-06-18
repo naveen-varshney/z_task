@@ -12,24 +12,34 @@ class EquityApp(object):
 
     @cherrypy.expose
     def get_top_equity(self, search=False):
-        rdb = RedisDb()
-        for_date = datetime.strptime(rdb.r_con.get('last_updated_date'), '%d%m%y').strftime('%d %B')
-        if not search:
-            return json.dumps({'top_10': rdb.get_top_entries(),'for_date': for_date})
-        return json.dumps({'top_10': rdb.seach_for_name(search),'for_date': for_date})
+        try:
+            rdb = RedisDb()
+            for_date = datetime.strptime(rdb.r_con.get('last_updated_date'), '%d%m%y').strftime('%d %B')
+            cherrypy.log('get_top_equity called for date {}'.format(for_date))
+            if not search:
+                return json.dumps({'success': True,'top_10': rdb.get_top_entries(),'for_date': for_date})
+            return json.dumps({'success': True,'top_10': rdb.seach_for_name(search),'for_date': for_date})
+        except Exception as e:
+            cherrypy.log('get_top_equity error occured',traceback=True)
+        return json.dumps({'success': False})
 
     @cherrypy.expose
     def refresh(self, for_date):
-        for_date = datetime.strptime(for_date, '%Y-%m-%d').strftime('%d%m%y')
-        get_zip = GetEquityZip(for_date=for_date)
-        rdb = get_zip.red
-        # if for_date == rdb.r_con.get('last_updated_date'):
-        #     return False
-        res = get_zip.get_zip_from_bse()
-        if res['success']:
-            for_date = datetime.strptime(rdb.r_con.get('last_updated_date'), '%d%m%y').strftime('%d %B')
-            return json.dumps({'top_10': rdb.get_top_entries(),'for_date': for_date})
-        return False
+        try:
+            for_date = datetime.strptime(for_date, '%Y-%m-%d').strftime('%d%m%y')
+            cherrypy.log('get_top_equity called for date {}'.format(for_date))
+            get_zip = GetEquityZip(for_date=for_date)
+            rdb = get_zip.red
+            if for_date == rdb.r_con.get('last_updated_date'):
+                return json.dumps({'success': True,'top_10': rdb.get_top_entries(),'for_date': for_date})
+            res = get_zip.get_zip_from_bse()
+            if res['success']:
+                for_date = datetime.strptime(rdb.r_con.get('last_updated_date'), '%d%m%y').strftime('%d %B')
+                return json.dumps({'success': True,'top_10': rdb.get_top_entries(),'for_date': for_date})
+            return json.dumps({'success': False,'message':res.get('message',"Something went wrong")})
+        except Exception as e:
+            cherrypy.log('refresh error occured',traceback=True)
+        return json.dumps({'success': False})
 
 if __name__ == '__main__':
     config = {
@@ -38,7 +48,9 @@ if __name__ == '__main__':
             'server.socket_port': int(os.environ.get('PORT', 5000))
         },
         '/': {
-            'tools.staticdir.root': os.path.dirname(os.path.abspath(__file__))
+            'tools.staticdir.root': os.path.dirname(os.path.abspath(__file__)),
+            'log.access_file': '',
+            'log.error_file': 'error_file'
         },
         '/assests': {
             'tools.staticdir.on': True,

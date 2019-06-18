@@ -4,6 +4,7 @@ import io
 import re
 import requests
 import redis
+import cherrypy
 from zipfile import ZipFile
 from datetime import date, timedelta, datetime
 from models import RedisDb
@@ -20,6 +21,7 @@ class GetEquityZip(object):
 		try:
 			#get the zip file
 			response = requests.get(self.zip_url)
+			cherrypy.log('get_zip_from_bse called for url {} and respond with status_code {}'.format(self.zip_url,response.status_code))
 			if response.status_code == 200:
 				#extract the zipfile
 				with ZipFile(io.BytesIO(response.content)) as zip_file:
@@ -42,8 +44,8 @@ class GetEquityZip(object):
 				#file not found
 				return {"success" : False, "message": "File not found for date {}".format(self.for_date)}
 		except Exception as e:
-			print(e)
-			return {"success" : False, "message": "Some error occured!!"}
+			cherrypy.log('error for get_zip_from_bse {}'.format(self.for_date),traceback=True)
+		return {"success" : False, "message": "Some error occured!!"}
 
 	def _save_data_from_csv(self,data=[]):
 		try:
@@ -71,5 +73,5 @@ class GetEquityZip(object):
 			self.red.r_con.set("last_updated_date", self.for_date)
 			return True
 		except Exception as e:
-			print(e)
+			cherrypy.log('error for get_zip_from_bse {}'.format(self.for_date),traceback=True)
 		return False

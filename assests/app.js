@@ -42,7 +42,7 @@ function GetDate() {
   if (x == '') {
     return false;
   }
-  $("#sumbit-date").attr("disabled", true);
+  $("#submit-date").attr("disabled", true);
   $.ajax({
                 url: '/refresh',
                 type: 'get',
@@ -51,6 +51,11 @@ function GetDate() {
                     var data = JSON.parse(data);
                     var for_date = data.for_date;
                     var top_10 = data.top_10
+                    if (!data.success) {
+                      $('#t-body').html("<h4>some error occured while fetching data!!</h4>");
+                      return;
+                    }
+
                     $('#t-body').empty();
                     if (search != '') {
                       $('#main-heading').html("Equity search results for <strong id='for-date'></strong>");
@@ -66,7 +71,7 @@ function GetDate() {
                     $('#t-body').html(errorMsg);
                   }
   });
-  $("#sumbit-date").attr("disabled", false);
+  $("#submit-date").attr("disabled", false);
 }
 
 function LoadEquity(search='') {
@@ -77,6 +82,10 @@ function LoadEquity(search='') {
                 success: function(data){
                     var data = JSON.parse(data);
                     var for_date = data.for_date;
+                    if (!data.success) {
+                      $('#t-body').html("some error occured while fetching data!!");
+                      return;
+                    }
                     var top_10 = data.top_10
                     $('#t-body').empty();
                     if (search != '') {
