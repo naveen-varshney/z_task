@@ -35,8 +35,10 @@ class RedisDb(object):
 
 	def seach_for_name(self,name):
 		#fetch matched entries
-		matches = self.r_con.zrangebylex("search", "[" + name, "[" + name + "\xff")
+		# matches = self.r_con.zrangebylex("search", "[" + name, "[" + name + "\xff")
 
+		#searching on keys
+		matches = self.r_con.execute_command('KEYS {}*'.format(name))
 		result = []
 		for match in matches:
 			result.append(self.get_row(match))
